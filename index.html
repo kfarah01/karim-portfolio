@@ -30,7 +30,6 @@
       overflow-x: hidden;
     }
 
-    /* NOISE OVERLAY */
     body::before {
       content: '';
       position: fixed;
@@ -126,12 +125,7 @@
       animation: fadeUp 0.9s 0.35s forwards;
     }
 
-    .hero-name span {
-      display: block;
-      color: var(--accent);
-      -webkit-text-stroke: 0px;
-    }
-
+    .hero-name span { display: block; color: var(--accent); }
     .hero-name .outline {
       color: transparent;
       -webkit-text-stroke: 1px var(--text);
@@ -148,7 +142,6 @@
       opacity: 0;
       animation: fadeUp 0.9s 0.55s forwards;
     }
-
     .hero-descriptor strong { color: var(--text); font-style: normal; font-weight: 300; }
 
     .hero-bottom {
@@ -175,10 +168,7 @@
       font-weight: 500;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .btn-primary:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 4px 4px 0 var(--mid);
-    }
+    .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--mid); }
 
     .btn-ghost {
       display: inline-flex;
@@ -195,23 +185,19 @@
     .btn-ghost svg { transition: transform 0.2s; }
     .btn-ghost:hover svg { transform: translateX(4px); }
 
-    /* HERO RIGHT — visual panel */
     .hero-right {
       position: relative;
       overflow: hidden;
       border-left: 1px solid var(--border);
     }
-
     .hero-grid-bg {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background-image:
         linear-gradient(var(--border) 1px, transparent 1px),
         linear-gradient(90deg, var(--border) 1px, transparent 1px);
       background-size: 60px 60px;
       opacity: 0.5;
     }
-
     .hero-circle {
       position: absolute;
       top: 50%; left: 50%;
@@ -230,16 +216,8 @@
       border-radius: 50%;
       transform: translateX(-50%);
     }
-    .hero-circle-2 {
-      width: 220px; height: 220px;
-      animation-duration: 13s;
-      animation-direction: reverse;
-    }
-    .hero-circle-3 {
-      width: 480px; height: 480px;
-      animation-duration: 35s;
-      border-color: var(--mid);
-    }
+    .hero-circle-2 { width: 220px; height: 220px; animation-duration: 13s; animation-direction: reverse; }
+    .hero-circle-3 { width: 480px; height: 480px; animation-duration: 35s; border-color: var(--mid); }
 
     .hero-status {
       position: absolute;
@@ -258,7 +236,6 @@
       box-shadow: 0 0 8px #4cff91;
       animation: pulse 2s infinite;
     }
-
     .hero-location {
       position: absolute;
       top: 3rem; right: 3rem;
@@ -291,13 +268,12 @@
     }
     .marquee-inner span.hi { color: var(--accent); }
 
-    /* ABOUT */
+    /* SECTIONS */
     .section {
       padding: 8rem 3rem;
       max-width: 1200px;
       margin: 0 auto;
     }
-
     .section-label {
       font-size: 0.6rem;
       letter-spacing: 0.3em;
@@ -316,13 +292,13 @@
       max-width: 80px;
     }
 
+    /* ABOUT */
     .about-grid {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
       gap: 6rem;
       align-items: start;
     }
-
     .about-headline {
       font-family: 'Fraunces', serif;
       font-weight: 300;
@@ -330,11 +306,7 @@
       line-height: 1.2;
       color: var(--text);
     }
-    .about-headline em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
+    .about-headline em { font-style: italic; color: var(--accent); }
     .about-body {
       font-size: 0.8rem;
       line-height: 1.9;
@@ -342,9 +314,7 @@
       margin-top: 1.5rem;
     }
     .about-body p + p { margin-top: 1rem; }
-
     .about-right { padding-top: 0.5rem; }
-
     .skills-block { margin-bottom: 2.5rem; }
     .skills-block-label {
       font-size: 0.6rem;
@@ -353,11 +323,7 @@
       color: var(--muted);
       margin-bottom: 0.8rem;
     }
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .skill-tag {
       font-size: 0.65rem;
       padding: 0.3rem 0.7rem;
@@ -376,33 +342,18 @@
       border: 1px solid var(--border);
       margin-top: 2.5rem;
     }
-    .stat {
-      background: var(--bg);
-      padding: 1.5rem;
-    }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      color: var(--text);
-      line-height: 1;
-    }
+    .stat { background: var(--bg); padding: 1.5rem; }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--text); line-height: 1; }
     .stat-num span { color: var(--accent); }
-    .stat-desc {
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.3rem;
-    }
+    .stat-desc { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.3rem; }
 
-    /* EXPERIENCE */
+    /* EXPERIENCE — FIX: visible by default, animate on scroll */
     .exp-section {
       border-top: 1px solid var(--border);
       padding: 8rem 3rem;
       max-width: 1200px;
       margin: 0 auto;
     }
-
     .exp-item {
       display: grid;
       grid-template-columns: 200px 1fr;
@@ -410,45 +361,17 @@
       padding: 3rem 0;
       border-bottom: 1px solid var(--border);
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s, transform 0.6s;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
-    .exp-item.visible { opacity: 1; transform: none; }
+    .exp-item.visible { opacity: 1; transform: translateY(0); }
 
-    .exp-date {
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      padding-top: 0.3rem;
-    }
-
-    .exp-title {
-      font-family: 'Fraunces', serif;
-      font-weight: 300;
-      font-size: 1.4rem;
-      color: var(--text);
-      margin-bottom: 0.3rem;
-    }
-    .exp-company {
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-    .exp-desc {
-      font-size: 0.78rem;
-      line-height: 1.8;
-      color: var(--muted);
-    }
+    .exp-date { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); padding-top: 0.3rem; }
+    .exp-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: 1.4rem; color: var(--text); margin-bottom: 0.3rem; }
+    .exp-company { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .exp-desc { font-size: 0.78rem; line-height: 1.8; color: var(--muted); }
     .exp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
-    .exp-tag {
-      font-size: 0.6rem;
-      padding: 0.2rem 0.5rem;
-      background: var(--surface);
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
+    .exp-tag { font-size: 0.6rem; padding: 0.2rem 0.5rem; background: var(--surface); color: var(--muted); letter-spacing: 0.05em; }
 
     /* LANGUAGES */
     .lang-section {
@@ -465,44 +388,68 @@
       border: 1px solid var(--border);
       margin-top: 3rem;
     }
-    .lang-item {
-      background: var(--bg);
-      padding: 2rem 1.5rem;
-      transition: background 0.2s;
-    }
+    .lang-item { background: var(--bg); padding: 2rem 1.5rem; transition: background 0.2s; }
     .lang-item:hover { background: var(--surface); }
-    .lang-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      color: var(--text);
-      letter-spacing: 0.05em;
-    }
-    .lang-level {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.3rem;
-    }
-    .lang-bar {
-      height: 2px;
-      background: var(--border);
-      margin-top: 1rem;
-      position: relative;
-      overflow: hidden;
-    }
+    .lang-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--text); letter-spacing: 0.05em; }
+    .lang-level { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 0.3rem; }
+    .lang-bar { height: 2px; background: var(--border); margin-top: 1rem; position: relative; overflow: hidden; }
     .lang-fill {
-      position: absolute;
-      top: 0; left: 0;
+      position: absolute; top: 0; left: 0;
       height: 100%;
       background: var(--accent);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .lang-fill.animate { transform: scaleX(1); }
 
-    /* CONTACT / FOOTER */
+    /* PROJECTS */
+    .projects-teaser {
+      border-top: 1px solid var(--border);
+      padding: 6rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+    .project-card {
+      background: var(--bg);
+      padding: 2.5rem;
+      transition: background 0.25s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      transition: height 0.3s;
+    }
+    .project-card:hover { background: var(--surface); }
+    .project-card:hover::before { height: 100%; }
+
+    .project-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: var(--border); line-height: 1; margin-bottom: 0.5rem; transition: color 0.3s; }
+    .project-card:hover .project-num { color: var(--mid); }
+    .project-name { font-family: 'Fraunces', serif; font-weight: 300; font-size: 1.4rem; color: var(--text); margin-bottom: 0.5rem; }
+    .project-stack { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+    .project-desc { font-size: 0.75rem; line-height: 1.7; color: var(--muted); }
+    .project-arrow { position: absolute; bottom: 2rem; right: 2rem; font-size: 1.2rem; color: var(--muted); transition: color 0.2s, transform 0.2s; }
+    .project-card:hover .project-arrow { color: var(--accent); transform: translate(3px, -3px); }
+    .project-coming { opacity: 0.4; pointer-events: none; }
+    .project-coming .project-name { color: var(--muted); }
+
+    /* CONTACT */
     .contact-section {
       border-top: 1px solid var(--border);
       padding: 8rem 3rem 4rem;
@@ -521,7 +468,6 @@
       transition: -webkit-text-stroke-color 0.3s;
     }
     .contact-headline:hover span { -webkit-text-stroke-color: var(--accent); }
-
     .contact-row {
       display: flex;
       justify-content: space-between;
@@ -545,18 +491,12 @@
       gap: 0.4rem;
     }
     .contact-link:hover { color: var(--accent); }
-
-    .footer-copy {
-      font-size: 0.6rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-    }
+    .footer-copy { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; }
 
     /* SCROLL INDICATOR */
     .scroll-indicator {
       position: absolute;
-      bottom: 2.5rem;
-      left: 3rem;
+      bottom: 2.5rem; left: 3rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -565,18 +505,25 @@
       animation: fadeUp 1s 1.2s forwards;
     }
     .scroll-line {
-      width: 1px;
-      height: 50px;
+      width: 1px; height: 50px;
       background: linear-gradient(to bottom, var(--accent), transparent);
       animation: scrollAnim 1.5s infinite;
     }
-    .scroll-text {
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+    .scroll-text { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); writing-mode: vertical-lr; }
+
+    /* EDU BADGE */
+    .edu-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid var(--border);
+      padding: 0.8rem 1.2rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
       color: var(--muted);
-      writing-mode: vertical-lr;
+      margin-top: 1.5rem;
     }
+    .edu-badge strong { color: var(--text); }
 
     /* ANIMATIONS */
     @keyframes fadeUp {
@@ -602,101 +549,6 @@
       100% { transform: scaleY(0); transform-origin: bottom; }
     }
 
-    /* EDUCATION BADGE */
-    .edu-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      border: 1px solid var(--border);
-      padding: 0.8rem 1.2rem;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-top: 1.5rem;
-    }
-    .edu-badge strong { color: var(--text); }
-
-    /* PROJECTS TEASER */
-    .projects-teaser {
-      border-top: 1px solid var(--border);
-      padding: 6rem 3rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      margin-top: 3rem;
-    }
-    .project-card {
-      background: var(--bg);
-      padding: 2.5rem;
-      transition: background 0.25s;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px;
-      height: 0;
-      background: var(--accent);
-      transition: height 0.3s;
-    }
-    .project-card:hover { background: var(--surface); }
-    .project-card:hover::before { height: 100%; }
-
-    .project-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 5rem;
-      color: var(--border);
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      transition: color 0.3s;
-    }
-    .project-card:hover .project-num { color: var(--mid); }
-
-    .project-name {
-      font-family: 'Fraunces', serif;
-      font-weight: 300;
-      font-size: 1.4rem;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-    .project-stack {
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.8rem;
-    }
-    .project-desc {
-      font-size: 0.75rem;
-      line-height: 1.7;
-      color: var(--muted);
-    }
-    .project-arrow {
-      position: absolute;
-      bottom: 2rem; right: 2rem;
-      font-size: 1.2rem;
-      color: var(--muted);
-      transition: color 0.2s, transform 0.2s;
-    }
-    .project-card:hover .project-arrow {
-      color: var(--accent);
-      transform: translate(3px, -3px);
-    }
-    .project-coming {
-      opacity: 0.4;
-      pointer-events: none;
-    }
-    .project-coming .project-name { color: var(--muted); }
-
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
@@ -711,8 +563,6 @@
   </style>
 </head>
 <body>
-
-
 
 <!-- NAV -->
 <nav id="nav">
@@ -748,7 +598,6 @@
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
-
     <div class="scroll-indicator">
       <span class="scroll-text">Scroll</span>
       <div class="scroll-line"></div>
@@ -760,12 +609,10 @@
     <div class="hero-circle"></div>
     <div class="hero-circle hero-circle-2"></div>
     <div class="hero-circle hero-circle-3"></div>
-
     <div class="hero-location">
       <div>Brooklyn, NY</div>
       <div style="margin-top:0.3rem; font-size:0.55rem;">US Citizen · No Sponsorship</div>
     </div>
-
     <div class="hero-status">
       <div class="status-dot"></div>
       Available for full-time roles
@@ -790,7 +637,6 @@
     <span>Agile / Scrum</span> <span class="hi">·</span>
     <span>Mobile Dev</span> <span class="hi">·</span>
     <span>Cross-Platform</span> <span class="hi">·</span>
-    <!-- duplicate for seamless loop -->
     <span class="hi">→</span>
     <span>Flutter</span> <span class="hi">·</span>
     <span>Node.js</span> <span class="hi">·</span>
@@ -869,7 +715,6 @@
           <span class="skill-tag">DSA</span>
         </div>
       </div>
-
       <div class="stat-row">
         <div class="stat">
           <div class="stat-num">4<span>+</span></div>
@@ -935,26 +780,26 @@
   </div>
 </section>
 
-<!-- PROJECTS TEASER -->
+<!-- PROJECTS -->
 <section class="projects-teaser" id="projects">
   <div class="section-label">03 — Projects</div>
   <div class="projects-grid">
 
-    <div class="project-card">
+    <a class="project-card" href="projects/unidosya.html">
       <div class="project-num">01</div>
       <div class="project-name">UnidosYa</div>
       <div class="project-stack">Flutter · Dart · Firebase · Google Maps API</div>
       <div class="project-desc">Emergency volunteer coordination app built as Final Degree Project (TFG) in response to the 2024 Valencia DANA floods. Cross-platform iOS/Android, geolocated matching, push notifications, dual user flows.</div>
       <div class="project-arrow">↗</div>
-    </div>
+    </a>
 
-    <div class="project-card">
+    <a class="project-card" href="projects/friendship.html">
       <div class="project-num">02</div>
       <div class="project-name">Friend.ship</div>
       <div class="project-stack">Flutter · Dart · Supabase</div>
       <div class="project-desc">Social planning mobile app with real-time backend sync and offline support. OOP-structured codebase, auth flows, event creation, and group invitation — built for maintainability from day one.</div>
       <div class="project-arrow">↗</div>
-    </div>
+    </a>
 
     <div class="project-card project-coming">
       <div class="project-num">03</div>
@@ -976,7 +821,7 @@
 <!-- LANGUAGES -->
 <section class="lang-section">
   <div class="section-label">04 — Human Languages</div>
-  <div class="lang-grid">
+  <div class="lang-grid" id="lang-grid">
     <div class="lang-item">
       <div class="lang-name">French</div>
       <div class="lang-level">Native</div>
@@ -1006,7 +851,6 @@
   <div class="contact-headline">
     Let's<br><span>Build</span><br>Something.
   </div>
-
   <div class="contact-row">
     <div class="contact-links">
       <a id="email-link" href="#" class="contact-link">
@@ -1030,12 +874,9 @@
   </div>
 </section>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-
-
-  // EMAIL — rendered via JS to bypass Cloudflare obfuscation
-  const u = 'karimfarahpro';
-  const d = 'gmail.com';
+<script>
+  // EMAIL
+  const u = 'karimfarahpro', d = 'gmail.com';
   const email = u + '@' + d;
   const el = document.getElementById('email-link');
   const txt = document.getElementById('email-text');
@@ -1045,29 +886,33 @@
     txt.textContent = email;
   }
 
+  // NAV scroll
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 50);
   });
 
-  // SCROLL-TRIGGERED ANIMATIONS
+  // INTERSECTION OBSERVER — exp items + lang bars
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
+      if (!e.isIntersecting) return;
+
+      // exp items
+      if (e.target.classList.contains('exp-item')) {
         e.target.classList.add('visible');
-        // animate language bars
+      }
+
+      // lang grid
+      if (e.target.id === 'lang-grid') {
         e.target.querySelectorAll('.lang-fill').forEach(fill => {
-          const w = fill.dataset.width;
-          fill.style.transform = `scaleX(${w})`;
-          fill.classList.add('animate');
+          fill.style.transform = `scaleX(${fill.dataset.width})`;
         });
       }
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.exp-item, .lang-grid').forEach(el => observer.observe(el));
-
-  // LANGUAGE BARS — separate observer for precision
-  const langObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) 
+  document.querySelectorAll('.exp-item').forEach(el => observer.observe(el));
+  observer.observe(document.getElementById('lang-grid'));
+</script>
+</body>
+</html>
