@@ -505,6 +505,25 @@
     .project-coming { opacity: 0.4; pointer-events: none; }
     .project-coming .project-name { color: var(--muted); }
 
+    /* Live demo button inside project card */
+    .project-live-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.2rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.45rem 0.9rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      position: relative;
+      z-index: 2;
+    }
+    .project-live-btn:hover { background: var(--accent); color: var(--bg); }
+
     /* CONTACT */
     .contact-section {
       border-top: 1px solid var(--border);
@@ -763,7 +782,7 @@
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
         <div>
           <strong>B.S. Computer Engineering</strong> — Polytechnic University of Valencia
-          <div style="margin-top:2px">Honors · Expected Sep 2025</div>
+          <div style="margin-top:2px">Honors · Sep 2025</div>
         </div>
       </div>
     </div>
@@ -815,7 +834,7 @@
           <div class="stat-desc">Tickets handled</div>
         </div>
         <div class="stat">
-          <div class="stat-num">2<span>+</span></div>
+          <div class="stat-num">3<span>+</span></div>
           <div class="stat-desc">Shipped apps</div>
         </div>
       </div>
@@ -887,11 +906,21 @@
       <div class="project-arrow">↗</div>
     </a>
 
-    <div class="project-card project-coming">
+    <div class="project-card" style="cursor:default;">
       <div class="project-num">03</div>
-      <div class="project-name">Coming Soon</div>
-      <div class="project-stack">TBD</div>
-      <div class="project-desc">Next project in progress.</div>
+      <div class="project-name">MeetingAI Summarizer</div>
+      <div class="project-stack">React 19 · Anthropic Claude API · Vite · Vercel</div>
+      <div class="project-desc">Production-deployed web app that transforms raw meeting transcripts into structured summaries, key decisions, and action items with owners and deadlines — powered by Claude. Full-text search, drag-and-drop upload, in-memory SPA routing. Zero-config CI/CD on Vercel.</div>
+      <a
+        class="project-live-btn"
+        href="https://meeting-summarizer-alpha.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        onclick="event.stopPropagation();"
+      >
+        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Live Demo
+      </a>
     </div>
 
     <div class="project-card project-coming">
