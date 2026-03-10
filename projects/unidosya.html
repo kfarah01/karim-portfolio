@@ -304,9 +304,7 @@
     .screenshots-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 2rem;
       margin-top: 3rem;
     }
     .screenshot-slot {
@@ -318,14 +316,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      border: 1px solid var(--border);
     }
-    /* When you add a real image, it fills the slot */
     .screenshot-slot img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
     /* Placeholder UI shown until images are added */
     .screenshot-placeholder {
