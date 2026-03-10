@@ -309,21 +309,16 @@
     }
     .screenshot-slot {
       background: var(--surface);
-      aspect-ratio: 9 / 16;
-      position: relative;
-      overflow: hidden;
+      border: 1px solid var(--border);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      border: 1px solid var(--border);
     }
     .screenshot-slot img {
-      position: absolute;
-      inset: 0;
       width: 100%;
-      height: 100%;
-      object-fit: contain;
+      height: auto;
+      display: block;
+      image-rendering: high-quality;
     }
     /* Placeholder UI shown until images are added */
     .screenshot-placeholder {
