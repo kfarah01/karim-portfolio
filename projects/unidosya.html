@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UnidosYa — Karim Farah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #e8ff47;
+      --accent2: #ff4d4d;
+      --text: #f0ede6;
+      --muted: #909090;
+      --mid: #333333;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.35;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(15,15,15,0.93);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-back svg { transition: transform 0.2s; }
+    .nav-back:hover svg { transform: translateX(-4px); }
+
+    /* HERO */
+    .project-hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10rem 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.4;
+    }
+
+    .hero-accent-line {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+    .project-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.1s forwards;
+    }
+
+    .project-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 12vw, 14rem);
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.25s forwards;
+    }
+
+    .project-title .outline {
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(240, 237, 230, 0.4);
+      display: block;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.45s forwards;
+    }
+    .meta-item { }
+    .meta-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: #787878; margin-bottom: 0.3rem; }
+    .meta-value { font-size: 0.75rem; color: var(--text); }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 4rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-stat {
+      background: var(--bg);
+      padding: 1.5rem;
+      transition: background 0.2s;
+    }
+    .hero-stat:hover { background: var(--surface); }
+    .hero-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero-stat-desc { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #787878; margin-top: 0.3rem; }
+
+    /* SECTIONS */
+    .section {
+      padding: 7rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 80px;
+    }
+
+    /* OVERVIEW */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .overview-headline {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .overview-headline em { font-style: italic; color: var(--accent); }
+    .overview-body {
+      font-size: 0.8rem;
+      line-height: 1.9;
+      color: #999;
+      margin-top: 1.5rem;
+    }
+    .overview-body p + p { margin-top: 1rem; }
+
+    .context-block {
+      padding: 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+    }
+    .context-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent2);
+    }
+    .context-title { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; }
+    .context-text { font-size: 0.75rem; line-height: 1.8; color: #999; }
+
+    /* PROBLEM */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .problem-item {
+      background: var(--bg);
+      padding: 2rem;
+      transition: background 0.2s;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s;
+    }
+    .problem-item.visible { opacity: 1; transform: translateY(0); }
+    .problem-item:hover { background: var(--surface); }
+    .problem-icon { font-size: 1.4rem; margin-bottom: 1rem; }
+    .problem-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: 1rem; color: var(--text); margin-bottom: 0.6rem; }
+    .problem-desc { font-size: 0.72rem; line-height: 1.75; color: #999; }
+
+    /* TECH STACK */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .stack-item {
+      background: var(--bg);
+      padding: 1.8rem;
+      transition: background 0.2s;
+    }
+    .stack-item:hover { background: var(--surface); }
+    .stack-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--text); letter-spacing: 0.05em; }
+    .stack-role { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0.3rem 0 0.6rem; }
+    .stack-desc { font-size: 0.68rem; line-height: 1.7; color: #787878; }
+
+    /* ARCHITECTURE */
+    .arch-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .arch-item {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+      background: var(--bg);
+      padding: 1.8rem 2rem;
+      transition: background 0.2s;
+      align-items: center;
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s;
+    }
+    .arch-item.visible { opacity: 1; transform: translateX(0); }
+    .arch-item:hover { background: var(--surface); }
+    .arch-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .arch-desc { font-size: 0.75rem; line-height: 1.7; color: #999; }
+
+    /* SCREENSHOTS */
+    .screenshots-section {
+      border-top: 1px solid var(--border);
+      padding: 7rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+    .screenshot-slot {
+      background: var(--surface);
+      aspect-ratio: 9 / 16;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    /* When you add a real image, it fills the slot */
+    .screenshot-slot img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Placeholder UI shown until images are added */
+    .screenshot-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+      user-select: none;
+    }
+    .screenshot-placeholder svg { opacity: 0.2; }
+    .screenshot-placeholder-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #484848;
+      text-align: center;
+      line-height: 1.8;
+    }
+    .screenshot-num {
+      position: absolute;
+      top: 1rem; left: 1rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: var(--border);
+    }
+
+    /* SKILLS / RESULTS */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .result-item {
+      background: var(--bg);
+      padding: 2rem 1.5rem;
+      transition: background 0.2s;
+    }
+    .result-item:hover { background: var(--surface); }
+    .result-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: 1rem; color: var(--text); margin-bottom: 0.5rem; }
+    .result-desc { font-size: 0.7rem; line-height: 1.75; color: #787878; }
+
+    /* SDG BADGES */
+    .sdg-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .sdg-badge {
+      border: 1px solid var(--border);
+      padding: 0.8rem 1.2rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sdg-badge strong { color: var(--text); }
+
+    /* LINKS ROW */
+    .project-links {
+      border-top: 1px solid var(--border);
+      padding: 4rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--mid); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s;
+      border: 1px solid var(--border);
+      padding: 0.85rem 2rem;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--mid); }
+
+    .next-project {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #787878;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .next-project:hover { color: var(--accent); }
+    .next-project svg { transition: transform 0.2s; }
+    .next-project:hover svg { transform: translateX(4px); }
+
+    /* DIVIDERS */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .overview-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .stack-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .screenshots-grid { grid-template-columns: 1fr 1fr; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      .arch-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      nav { padding: 1.2rem 1.5rem; }
+      .section, .screenshots-section, .project-links { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .project-hero { padding-left: 1.5rem; padding-right: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .stack-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .screenshots-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr; }
+      .hero-meta { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">KF</a>
+  <a href="../index.html#projects" class="nav-back">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Projects
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="project-hero">
+  <div class="hero-accent-line"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="project-label">03 — Final Degree Project · TFG · 2024–2025</div>
+    <div class="project-title">
+      <span class="outline">Unidos</span>Ya
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Solo Developer</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Stack</div>
+        <div class="meta-value">Flutter · Firebase · Google Maps API</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Platform</div>
+        <div class="meta-value">Android (iOS-ready)</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Institution</div>
+        <div class="meta-value">UPV Valencia — Honors</div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">2.17s</div>
+        <div class="hero-stat-desc">Avg. matching time</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">99.7%</div>
+        <div class="hero-stat-desc">System availability</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">87.3%</div>
+        <div class="hero-stat-desc">Task completion rate</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1K+</div>
+        <div class="hero-stat-desc">Concurrent users</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="section" id="overview">
+  <div class="section-label">01 — Overview</div>
+  <div class="overview-grid">
+    <div>
+      <h2 class="overview-headline">
+        Built for a real crisis.<br>
+        <em>Deployed in response</em><br>
+        to the Valencia floods.
+      </h2>
+      <div class="overview-body">
+        <p>UnidosYa is an Android mobile application that coordinates affected individuals and volunteers during natural disasters. It was directly inspired by the 2024 Valencia DANA floods — the deadliest natural catastrophe in Spain since 1957 — which killed over 200 people across 75 municipalities.</p>
+        <p>More than 50,000 spontaneous volunteers mobilised, but their efforts were severely hampered by a complete lack of digital coordination tools. Coordinators were using phone calls and spreadsheets. UnidosYa was built to solve that.</p>
+        <p>The system enables real-time volunteer-to-task matching, geolocation-based mission assignment, and secure communication — all GDPR-compliant and with offline operability for disaster-affected environments.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="context-block">
+        <div class="context-title">⚠ The Real-World Context</div>
+        <div class="context-text">
+          The Valencia DANA floods of October 2024 exposed a critical gap in emergency response infrastructure. With 50,000+ volunteers and no coordination system, response efforts were chaotic. Matching a volunteer to a task took 5–8 minutes by phone. UnidosYa reduces that to 2.17 seconds — 99% faster. This wasn't a hypothetical problem. People died waiting for help that was nearby.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- PROBLEM -->
+<section class="section">
+  <div class="section-label">02 — Problem Solved</div>
+  <div class="problem-grid">
+    <div class="problem-item">
+      <div class="problem-icon">📞</div>
+      <div class="problem-title">Manual matching bottleneck</div>
+      <div class="problem-desc">Coordinators relied on phone calls or spreadsheets — 5 to 8 minutes per volunteer assignment. With hundreds of requests per hour, this was untenable.</div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-icon">📍</div>
+      <div class="problem-title">No geolocation filtering</div>
+      <div class="problem-desc">Volunteers were deployed without regard to proximity or physical capacity, wasting critical time and logistics while nearby help went unmatched.</div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-icon">🔄</div>
+      <div class="problem-title">Zero real-time sync</div>
+      <div class="problem-desc">Duplicate efforts, resource misallocation, and zero visibility into mission status. Multiple teams arriving at the same location, others with no help at all.</div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-icon">📡</div>
+      <div class="problem-title">Connectivity dependency</div>
+      <div class="problem-desc">Existing digital tools required stable internet. During floods, connectivity fails. Any app not built for offline use becomes useless exactly when it's needed most.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- TECH STACK -->
+<section class="section">
+  <div class="section-label">03 — Technology Stack</div>
+  <div class="stack-grid">
+    <div class="stack-item">
+      <div class="stack-name">Flutter / Dart</div>
+      <div class="stack-role">Frontend Framework</div>
+      <div class="stack-desc">Cross-platform mobile development targeting Android first, iOS-ready. Provider pattern for reactive state management decoupled from Firebase streams.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Firebase Firestore</div>
+      <div class="stack-role">Real-Time Database</div>
+      <div class="stack-desc">NoSQL real-time database with denormalised data for read performance. Firestore listeners propagate all changes instantly across connected clients.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Firebase Auth</div>
+      <div class="stack-role">Authentication</div>
+      <div class="stack-desc">Role-based access control for two distinct user profiles — Volunteers and Affected Individuals. Security rules enforced at database level, not client-side.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Firebase FCM</div>
+      <div class="stack-role">Push Notifications</div>
+      <div class="stack-desc">Contextual push alerts for new missions, status changes, and communications. Instant delivery ensuring volunteers never miss a nearby opportunity.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Google Maps API</div>
+      <div class="stack-role">Geolocation & Mapping</div>
+      <div class="stack-desc">Interactive maps with real-time volunteer and mission positions. Haversine algorithm for server-side geographic distance filtering before UI rendering.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Git / Agile</div>
+      <div class="stack-role">Dev Process</div>
+      <div class="stack-desc">Iterative sprint-based development with version control. Repository pattern to abstract data access layers, enabling future backend migrations.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ARCHITECTURE -->
+<section class="section">
+  <div class="section-label">04 — Architecture Decisions</div>
+  <div class="arch-list">
+    <div class="arch-item">
+      <div class="arch-label">Serverless Backend</div>
+      <div class="arch-desc">Firebase serverless architecture eliminates infrastructure management and scales automatically. The free tier validated the system for 1,000+ concurrent users — zero backend ops overhead.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Real-Time Listener Pattern</div>
+      <div class="arch-desc">All data changes propagate instantly across connected clients via Firestore listeners. No polling, no stale data — critical in time-sensitive emergency scenarios.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Offline-First Design</div>
+      <div class="arch-desc">Critical data cached locally using Firestore offline persistence. The app remains fully operational during connectivity loss — the exact scenario it was built for.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Haversine Geo-Filtering</div>
+      <div class="arch-desc">Geographic distance calculations executed server-side before data reaches the UI. Volunteers browse and filter tasks within a configurable radius of up to 25 km.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Security-First Rules</div>
+      <div class="arch-desc">GDPR-compliant data handling with granular Firestore security rules and role-based access. No unauthorised cross-user data access — verified in testing. Security enforced at the database level, not the client.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Repository Pattern</div>
+      <div class="arch-desc">Data access layers abstracted from business logic. The architecture is designed to support a future backend migration (e.g., to Node.js/Supabase) without rewriting the entire codebase.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- SCREENSHOTS -->
+<section class="screenshots-section" id="screenshots">
+  <div class="section-label">05 — App Screenshots</div>
+
+  <!--
+  ============================================================
+  HOW TO ADD YOUR SCREENSHOTS
+  ============================================================
+
+  Each .screenshot-slot below holds one screenshot.
+  To add an image, replace the entire <div class="screenshot-placeholder">
+  block inside the slot with a simple <img> tag like this:
+
+    <img src="../assets/screenshots/unidosya-01.png" alt="Home screen">
+
+  STEPS:
+  1. Create a folder called "assets/screenshots/" next to your index.html
+  2. Drop your screenshot files in there (PNG or JPG both work)
+  3. In each slot below, remove the <div class="screenshot-placeholder">...</div>
+  4. Add: <img src="../assets/screenshots/YOUR-FILE-NAME.png" alt="Description">
+
+  SUGGESTED SCREENSHOT ORDER (edit labels too):
+    Slot 1 → Onboarding / Login screen
+    Slot 2 → Volunteer home / mission list
+    Slot 3 → Map view with pins
+    Slot 4 → Mission detail screen
+    Slot 5 → Affected individual flow
+    Slot 6 → Notification or completion screen
+
+  The slots are 9:16 ratio (portrait phone) by default.
+  If your screenshots are landscape, change aspect-ratio in .screenshot-slot to 16/9.
+  ============================================================
+  -->
+
+  <div class="screenshots-grid">
+
+    <div class="screenshot-slot">
+      <span class="screenshot-num">01</span>
+      <img src="../assets/screenshots/unidosya-01.png" alt="Onboarding / Login Screen">
+    </div>
+
+    <div class="screenshot-slot">
+      <span class="screenshot-num">02</span>
+      <img src="../assets/screenshots/unidosya-02.png" alt="Volunteer Home / Mission List">
+    </div>
+
+    <div class="screenshot-slot">
+      <span class="screenshot-num">03</span>
+      <img src="../assets/screenshots/unidosya-03.png" alt="Map View with Pins">
+    </div>
+
+    <div class="screenshot-slot">
+      <span class="screenshot-num">04</span>
+      <img src="../assets/screenshots/unidosya-04.png" alt="Mission Detail Screen">
+    </div>
+
+    <div class="screenshot-slot">
+      <span class="screenshot-num">05</span>
+      <img src="../assets/screenshots/unidosya-05.png" alt="Affected Individual Request Flow">
+    </div>
+
+    <div class="screenshot-slot">
+      <span class="screenshot-num">06</span>
+      <img src="../assets/screenshots/unidosya-06.png" alt="Notifications / Completion">
+    </div>
+
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- RESULTS -->
+<section class="section">
+  <div class="section-label">06 — Skills Demonstrated</div>
+  <div class="results-grid">
+    <div class="result-item">
+      <div class="result-title">Full-Stack Mobile Dev</div>
+      <div class="result-desc">End-to-end Flutter/Dart development with Firebase backend integration, state management, and auth flows — built solo.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">Real-Time Systems</div>
+      <div class="result-desc">Firestore listener architecture for instant cross-client synchronisation. No polling. No stale UI. Designed for high-urgency contexts.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">Geospatial Engineering</div>
+      <div class="result-desc">Google Maps API integration with Haversine-based server-side distance filtering, radius configuration, and live pin rendering.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">Security Engineering</div>
+      <div class="result-desc">GDPR-compliant system with role-based Firestore security rules. All access control enforced at database level — not client-side.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">System Design</div>
+      <div class="result-desc">Scalable NoSQL schema with denormalised data for read performance. Repository pattern ensures the architecture survives backend migrations.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">Agile Delivery</div>
+      <div class="result-desc">Iterative sprint-based development, version control discipline, and a 98-page academic paper documenting every technical decision.</div>
+    </div>
+  </div>
+
+  <!-- SDG -->
+  <div class="sdg-row">
+    <div class="sdg-badge"><strong>SDG 11</strong> Sustainable Cities &amp; Communities</div>
+    <div class="sdg-badge"><strong>SDG 13</strong> Climate Action</div>
+    <div class="sdg-badge"><strong>SDG 17</strong> Partnerships for the Goals</div>
+  </div>
+</section>
+
+<!-- LINKS -->
+<div class="project-links">
+  <div style="display:flex; gap: 1rem; flex-wrap: wrap;">
+    <a href="https://github.com/kfarah01" target="_blank" class="btn-primary">
+      <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      View on GitHub
+    </a>
+    <a href="../index.html#projects" class="btn-ghost">
+      ← All Projects
+    </a>
+  </div>
+  <a href="friendship.html" class="next-project">
+    Next: Friend.ship
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+</div>
+
+<script>
+  // Intersection observer for animated elements
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.problem-item, .arch-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
