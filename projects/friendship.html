@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Friend.ship — Karim Farah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #e8ff47;
+      --accent2: #ff4d4d;
+      --text: #f0ede6;
+      --muted: #909090;
+      --mid: #333333;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.35;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(15,15,15,0.93);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-back svg { transition: transform 0.2s; }
+    .nav-back:hover svg { transform: translateX(-4px); }
+
+    /* HERO */
+    .project-hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10rem 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.4;
+    }
+
+    /* Floating dots decoration — unique to Friend.ship */
+    .hero-dots {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-dot {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+    .hero-dot:nth-child(1) { width: 420px; height: 420px; top: -80px; right: -80px; animation: floatDot 18s linear infinite; }
+    .hero-dot:nth-child(2) { width: 220px; height: 220px; top: 60px; right: 120px; animation: floatDot 12s linear infinite reverse; }
+    .hero-dot:nth-child(3) { width: 600px; height: 600px; top: -200px; right: -200px; border-color: var(--mid); animation: floatDot 30s linear infinite; }
+    .hero-dot:nth-child(1)::before {
+      content: '';
+      position: absolute;
+      top: -4px; left: 50%;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatDot {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-accent-line {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+    .project-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.1s forwards;
+    }
+
+    .project-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 12vw, 14rem);
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.25s forwards;
+    }
+
+    .project-title .outline {
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(240, 237, 230, 0.4);
+      display: block;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.45s forwards;
+    }
+    .meta-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: #787878; margin-bottom: 0.3rem; }
+    .meta-value { font-size: 0.75rem; color: var(--text); }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 4rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-stat {
+      background: var(--bg);
+      padding: 1.5rem;
+      transition: background 0.2s;
+    }
+    .hero-stat:hover { background: var(--surface); }
+    .hero-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero-stat-desc { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #787878; margin-top: 0.3rem; }
+
+    /* SHARED SECTIONS */
+    .section {
+      padding: 7rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 80px;
+    }
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* OVERVIEW */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .overview-headline {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .overview-headline em { font-style: italic; color: var(--accent); }
+    .overview-body {
+      font-size: 0.8rem;
+      line-height: 1.9;
+      color: #999;
+      margin-top: 1.5rem;
+    }
+    .overview-body p + p { margin-top: 1rem; }
+
+    .context-block {
+      padding: 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+    }
+    .context-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+    }
+    .context-title { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .context-text { font-size: 0.75rem; line-height: 1.8; color: #999; }
+
+    /* PROBLEM GRID */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .problem-item {
+      background: var(--bg);
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s;
+    }
+    .problem-item.visible { opacity: 1; transform: translateY(0); }
+    .problem-item:hover { background: var(--surface); }
+    .problem-icon { font-size: 1.4rem; margin-bottom: 1rem; }
+    .problem-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: 1rem; color: var(--text); margin-bottom: 0.6rem; }
+    .problem-desc { font-size: 0.72rem; line-height: 1.75; color: #999; }
+
+    /* TECH STACK */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .stack-item {
+      background: var(--bg);
+      padding: 1.8rem;
+      transition: background 0.2s;
+    }
+    .stack-item:hover { background: var(--surface); }
+    .stack-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--text); letter-spacing: 0.05em; }
+    .stack-role { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 0.3rem 0 0.6rem; }
+    .stack-desc { font-size: 0.68rem; line-height: 1.7; color: #787878; }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .feature-item {
+      background: var(--bg);
+      padding: 2rem;
+      transition: background 0.2s;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+    .feature-item:hover::before { width: 100%; }
+    .feature-item.visible { opacity: 1; transform: translateY(0); }
+    .feature-item:hover { background: var(--surface); }
+    .feature-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: 1rem; color: var(--text); margin-bottom: 0.6rem; }
+    .feature-desc { font-size: 0.72rem; line-height: 1.75; color: #999; }
+    .feature-tag { display: inline-block; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+
+    /* ARCHITECTURE */
+    .arch-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .arch-item {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+      background: var(--bg);
+      padding: 1.8rem 2rem;
+      align-items: center;
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity 0.6s ease, transform 0.6s ease, background 0.2s;
+    }
+    .arch-item.visible { opacity: 1; transform: translateX(0); }
+    .arch-item:hover { background: var(--surface); }
+    .arch-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .arch-desc { font-size: 0.75rem; line-height: 1.7; color: #999; }
+
+    /* VALIDATION TABLE */
+    .validation-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .validation-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2rem;
+      background: var(--bg);
+      padding: 1.2rem 2rem;
+      align-items: center;
+      transition: background 0.2s;
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity 0.5s ease, transform 0.5s ease, background 0.2s;
+    }
+    .validation-row.visible { opacity: 1; transform: translateX(0); }
+    .validation-row:hover { background: var(--surface); }
+    .validation-key { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .validation-val { font-size: 0.72rem; line-height: 1.7; color: #999; }
+
+    /* ROADMAP */
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .roadmap-item {
+      background: var(--bg);
+      padding: 1.8rem 1.5rem;
+      transition: background 0.2s;
+    }
+    .roadmap-item:hover { background: var(--surface); }
+    .roadmap-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--border); line-height: 1; margin-bottom: 0.5rem; transition: color 0.3s; }
+    .roadmap-item:hover .roadmap-num { color: var(--mid); }
+    .roadmap-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: 0.95rem; color: var(--text); margin-bottom: 0.4rem; }
+    .roadmap-desc { font-size: 0.68rem; line-height: 1.7; color: #787878; }
+
+    /* SKILLS */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .result-item {
+      background: var(--bg);
+      padding: 2rem 1.5rem;
+      transition: background 0.2s;
+    }
+    .result-item:hover { background: var(--surface); }
+    .result-title { font-family: 'Fraunces', serif; font-weight: 300; font-size: 1rem; color: var(--text); margin-bottom: 0.5rem; }
+    .result-desc { font-size: 0.7rem; line-height: 1.75; color: #787878; }
+
+    /* PROJECT LINKS */
+    .project-links {
+      border-top: 1px solid var(--border);
+      padding: 4rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--mid); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.85rem 2rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--mid); }
+    .next-project {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #787878;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .next-project:hover { color: var(--accent); }
+    .next-project svg { transition: transform 0.2s; }
+    .next-project:hover svg { transform: translateX(4px); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .project-hero { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .section { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .project-links { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .overview-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .stack-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .arch-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .validation-row { grid-template-columns: 1fr; gap: 0.3rem; }
+      .roadmap-grid { grid-template-columns: 1fr 1fr; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .stack-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .roadmap-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr; }
+      .hero-meta { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">KF</a>
+  <a href="../index.html#projects" class="nav-back">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to Projects
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="project-hero">
+  <div class="hero-accent-line"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-dots">
+    <div class="hero-dot"></div>
+    <div class="hero-dot"></div>
+    <div class="hero-dot"></div>
+  </div>
+  <div class="hero-content">
+    <div class="project-label">02 — Personal Project · Flutter Mobile Development · Full-Stack</div>
+    <div class="project-title">
+      <span class="outline">Friend</span>.ship
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Group Project</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Stack</div>
+        <div class="meta-value">Flutter · Supabase · Dart</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Platform</div>
+        <div class="meta-value">Android (iOS-ready)</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Type</div>
+        <div class="meta-value">Social Event Coordination</div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">~30</div>
+        <div class="hero-stat-desc">Dart source files</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">6</div>
+        <div class="hero-stat-desc">Core CRUD modules</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-desc">Auth + social screens</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-desc">Supported cities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="section" id="overview">
+  <div class="section-label">01 — Overview</div>
+  <div class="overview-grid">
+    <div>
+      <h2 class="overview-headline">
+        Social planning<br>
+        with a <em>real backend</em>,<br>
+        not another chat thread.
+      </h2>
+      <div class="overview-body">
+        <p>Friend.ship is a cross-platform mobile application built with Flutter and Dart that enables users to create, discover, and coordinate social events with their friend groups. Backed by Supabase (PostgreSQL), it delivers real-time event management, a bidirectional social graph, group-based planning, and an invite system powered by WhatsApp deep links and QR codes.</p>
+        <p>The application was designed from the ground up to feel social-first: users discover events nearby, see what their friends are organising, join friend groups, and track their activity through a gamified trophy system — all within a clean, responsive mobile interface.</p>
+        <p>Structurally, the codebase is built for maintainability from day one — repository pattern, Provider-based state management, and component-based UI that survives feature growth without a rewrite. Built collaboratively with a small team, applying Agile practices and version control discipline throughout.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="context-block">
+        <div class="context-title">💡 Why This Exists</div>
+        <div class="context-text">
+          Coordinating social plans with friends means juggling WhatsApp, Instagram DMs, and half-finished calendar invites. There is no single source of truth. Friend.ship is a product answer to that friction — a focused planning layer that sits on top of existing social connections without replacing how people communicate. Built because the problem was real, not hypothetical.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- PROBLEM -->
+<section class="section">
+  <div class="section-label">02 — Problem Solved</div>
+  <div class="problem-grid">
+    <div class="problem-item">
+      <div class="problem-icon">💬</div>
+      <div class="problem-title">No centralised event hub</div>
+      <div class="problem-desc">Friends scatter plans across WhatsApp, Instagram, and text messages with no single source of truth. Events get lost in threads and chats from days ago.</div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-icon">🔍</div>
+      <div class="problem-title">No easy friend discovery</div>
+      <div class="problem-desc">Adding contacts requires sharing phone numbers or social handles manually. There is no frictionless way to find and connect with people you already know.</div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-icon">👥</div>
+      <div class="problem-title">No group planning tools</div>
+      <div class="problem-desc">Creating events for a specific friend circle required building them individually per contact. Group coordination had no dedicated infrastructure to support it.</div>
+    </div>
+    <div class="problem-item">
+      <div class="problem-icon">📅</div>
+      <div class="problem-title">No personal event tracking</div>
+      <div class="problem-desc">Users had no way to track upcoming commitments or past social activity in one place. Attendance confirmation lived in message threads, not a calendar.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- TECH STACK -->
+<section class="section">
+  <div class="section-label">03 — Technology Stack</div>
+  <div class="stack-grid">
+    <div class="stack-item">
+      <div class="stack-name">Flutter / Dart</div>
+      <div class="stack-role">Frontend Framework</div>
+      <div class="stack-desc">Cross-platform mobile development targeting Android first, iOS-ready. Component-based widget library keeps screens composable and screens maintainable as features grow.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Supabase</div>
+      <div class="stack-role">PostgreSQL Backend</div>
+      <div class="stack-desc">Real-time DB, auth, and file storage on PostgreSQL. Row-level security rules enforced at the database level. Collections for users, events, groups, and friend relationships.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Supabase Auth</div>
+      <div class="stack-role">Authentication</div>
+      <div class="stack-desc">Email/password login with session persistence and secure sign-out. Auth callbacks handled through uni_links for cross-app deep link navigation.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Provider Pattern</div>
+      <div class="stack-role">State Management</div>
+      <div class="stack-desc">Reactive UI updates decoupled from Supabase streams. Global AppBarProvider and UserData singleton manage shared app state without prop drilling.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">Google Maps / uni_links</div>
+      <div class="stack-role">Deep Linking & Geo</div>
+      <div class="stack-desc">Custom URI schemes (miapp://) for cross-app navigation. Location-based event discovery with geolocation support for Valencia, Alicante, and Castellón.</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-name">qr_flutter / calendar_view</div>
+      <div class="stack-role">Utilities</div>
+      <div class="stack-desc">QR code generation for frictionless friend invitations. Day-view calendar with colour-coded entries distinguishing own events from friend events.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- FEATURES -->
+<section class="section">
+  <div class="section-label">04 — Key Features</div>
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-tag">Event management</div>
+      <div class="feature-title">Full CRUD Event Lifecycle</div>
+      <div class="feature-desc">Create → discover → detail view → edit → delete with full Supabase persistence. Events tagged to cities with 4 category filters: Music, Party, Gastronomy, and Adventure.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-tag">Social graph</div>
+      <div class="feature-title">Bidirectional Friend System</div>
+      <div class="feature-desc">Users share a unique deep link via WhatsApp or display a QR code. The receiver taps to open the app and confirm the friend connection — no phone numbers needed.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-tag">Group planning</div>
+      <div class="feature-title">Friend Groups & Group Events</div>
+      <div class="feature-desc">Create named groups, add members, and publish group-specific events tied to the group identity. Membership validated server-side through Supabase RLS.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-tag">Calendar</div>
+      <div class="feature-title">Personal Event Calendar</div>
+      <div class="feature-desc">Day-view calendar that auto-updates on event creation. Color-coded entries distinguish your own events from ones friends have created and invited you to.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-tag">Gamification</div>
+      <div class="feature-title">Trophy & Reward System</div>
+      <div class="feature-desc">Trophy system rewarding event creation milestones at 1, 25, and 50 events, displayed on the user profile. Reward logic that encourages active participation.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-tag">Resilience</div>
+      <div class="feature-title">Offline-Resilient Design</div>
+      <div class="feature-desc">Supabase cache and Flutter state management ensure graceful degradation during connectivity issues. Critical data stays available and syncs on reconnection.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ARCHITECTURE -->
+<section class="section">
+  <div class="section-label">05 — Architecture Decisions</div>
+  <div class="arch-list">
+    <div class="arch-item">
+      <div class="arch-label">Repository Pattern</div>
+      <div class="arch-desc">All database queries centralised in the Consultas class — data access fully abstracted from UI logic. The architecture is migration-proof: swapping Supabase for another backend requires no UI rewrites.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Supabase RLS Security</div>
+      <div class="arch-desc">Row-level security enforced at database level, not client-side. Event edit/delete restricted to creators. Group events tied to group ownership. No trust placed in the frontend.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Provider State Layer</div>
+      <div class="arch-desc">Reactive UI updates decoupled from Supabase streams via Provider. A global AppBarProvider and UserData singleton manage shared state across screens without tight coupling.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Deep Link Routing</div>
+      <div class="arch-desc">Custom URI schemes (miapp://) and Supabase auth callbacks handled through uni_links. Cross-app navigation works seamlessly — WhatsApp invite taps open the app at the right screen.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Component-Based UI</div>
+      <div class="arch-desc">Reusable widget library — EventoWidget, GroupsWidget, FiltroWidget — keeps screens composable. New screens are assembled, not written from scratch. Maintenance cost stays low.</div>
+    </div>
+    <div class="arch-item">
+      <div class="arch-label">Real-Time Sync</div>
+      <div class="arch-desc">Calendar auto-updates on event creation. Group membership reflected instantly across connected clients. Supabase real-time streams propagate changes without polling.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- VALIDATION -->
+<section class="section">
+  <div class="section-label">06 — Feature Validation</div>
+  <div class="validation-list">
+    <div class="validation-row">
+      <div class="validation-key">Event Creation</div>
+      <div class="validation-val">Full CRUD flow — create, view, edit, delete — with Supabase persistence verified end-to-end.</div>
+    </div>
+    <div class="validation-row">
+      <div class="validation-key">Friend System</div>
+      <div class="validation-val">Bidirectional friend graph via WhatsApp deep link, QR code, and URI scheme confirmed working on device.</div>
+    </div>
+    <div class="validation-row">
+      <div class="validation-key">Real-Time Sync</div>
+      <div class="validation-val">Calendar auto-updates on event creation. Group membership changes reflected instantly across sessions.</div>
+    </div>
+    <div class="validation-row">
+      <div class="validation-key">Scalability</div>
+      <div class="validation-val">Supabase PostgreSQL backend validated for concurrent multi-user access with no degradation in query response times.</div>
+    </div>
+    <div class="validation-row">
+      <div class="validation-key">Auth Flow</div>
+      <div class="validation-val">Email/password login, session persistence across app restarts, and secure sign-out tested end-to-end.</div>
+    </div>
+    <div class="validation-row">
+      <div class="validation-key">Role Access</div>
+      <div class="validation-val">Event edit/delete restricted to creator. Group events tied to group ownership. All enforced at database level via Supabase RLS.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ROADMAP -->
+<section class="section">
+  <div class="section-label">07 — Future Roadmap</div>
+  <div class="roadmap-grid">
+    <div class="roadmap-item">
+      <div class="roadmap-num">01</div>
+      <div class="roadmap-title">ML Event Matching</div>
+      <div class="roadmap-desc">Recommend events based on user history and social graph connections — personalised discovery without manual browsing.</div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-num">02</div>
+      <div class="roadmap-title">iOS Expansion</div>
+      <div class="roadmap-desc">Leverage Flutter's cross-platform capabilities for App Store deployment. Core architecture already supports it.</div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-num">03</div>
+      <div class="roadmap-title">In-App Messaging</div>
+      <div class="roadmap-desc">Real-time group chat tied to friend groups and events — keeping all coordination in one place.</div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-num">04</div>
+      <div class="roadmap-title">Push Notifications</div>
+      <div class="roadmap-desc">Firebase FCM integration for event reminders and friend request alerts. Keep users engaged without them opening the app first.</div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-num">05</div>
+      <div class="roadmap-title">Map Integration</div>
+      <div class="roadmap-desc">Google Maps embedded view for visualising event locations geographically — pinning where things are happening, not just listing them.</div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-num">06</div>
+      <div class="roadmap-title">Expanded Coverage</div>
+      <div class="roadmap-desc">Extend location support beyond the initial 3 cities. Configurable city onboarding to let communities self-organise.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- SKILLS -->
+<section class="section">
+  <div class="section-label">08 — Skills Demonstrated</div>
+  <div class="results-grid">
+    <div class="result-item">
+      <div class="result-title">Full-Stack Mobile Dev</div>
+      <div class="result-desc">Flutter, Dart, and Supabase backend integration built end-to-end as part of a team. From auth to real-time sync to QR-based invites.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">Real-Time Data Sync</div>
+      <div class="result-desc">Supabase streams and reactive UI patterns. Calendar and group membership updates propagate instantly — no polling, no stale state.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">Social Feature Design</div>
+      <div class="result-desc">Bidirectional friend graphs, QR invite flows, group membership, and deep link routing — a complete social layer built from scratch.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">Auth & Security</div>
+      <div class="result-desc">Supabase RLS enforced at database level. Role-based access with zero trust in client-side checks. Session management tested end-to-end.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">System Architecture</div>
+      <div class="result-desc">Repository pattern, Provider state layer, and component-based UI design that survives feature growth and backend migrations.</div>
+    </div>
+    <div class="result-item">
+      <div class="result-title">Gamification Design</div>
+      <div class="result-desc">Trophy and reward system with milestone-based logic. Engagement mechanics that encourage participation without disrupting the core UX.</div>
+    </div>
+  </div>
+</section>
+
+<!-- LINKS -->
+<div class="project-links">
+  <div style="display:flex; gap: 1rem; flex-wrap: wrap;">
+    <a href="https://github.com/kfarah01" target="_blank" class="btn-primary">
+      <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      View on GitHub
+    </a>
+    <a href="../index.html#projects" class="btn-ghost">
+      ← All Projects
+    </a>
+  </div>
+  <a href="unidosya.html" class="next-project">
+    Next: UnidosYa
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.problem-item, .feature-item, .arch-item, .validation-row').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
